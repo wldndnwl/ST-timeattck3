@@ -14,8 +14,9 @@ const newPosts = async () => {
 };
 const App = () => {
   const queryClient = useQueryClient();
-  const [title, setTittle] = useState("");
+  const [title, setTitle] = useState("");
   const [views, setViews] = useState("");
+
   const {
     data: posts,
     isLoading,
@@ -24,7 +25,11 @@ const App = () => {
     queryKey: ["posts"],
     queryFn: fetchPosts,
   });
-  // usestate
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
   if (isLoading) {
     return <div>로딩중입니다…</div>;
   }
@@ -34,6 +39,15 @@ const App = () => {
   // console.log("post=>", posts);
   return (
     <>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <button>추가하기</button>
+      </form>
       <ul>
         {posts.map((post) => {
           <li key={post.id}>
